@@ -6,7 +6,9 @@ Here is our AVC checklists
 
 - []: All: Complete AVC Plan
 - [x]: Sam: Organise follow up group meeting and ensure plan is completed and signed by all members /n
-- []: Quan, Jules: Write code for straight forward movement of the robot
+- []: Quan, Jules: Write code for straight forward movement of the robot (as we cant use example file)
+- []: Quan : Ask Arthur and tutors how to get the ipaddress of the RPI for the future and write it down on the commandline file
+- []: Quan : Ask Arthur and tutors where to store code-files on the RPi and how to import the RPi library
 
 ### week 1 comments (to be updated)
 
