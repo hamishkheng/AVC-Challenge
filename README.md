@@ -9,6 +9,7 @@ Here is our AVC checklists
 - []: Quan, Jules: Write code for straight forward movement of the robot (as we cant use example file)
 - []: Quan : Ask Arthur and tutors how to get the ipaddress of the RPI for the future and write it down on the commandline file
 - []: Quan : Ask Arthur and tutors where to store code-files on the RPi and how to import the RPi library
+- []: Quan : find out how the makefile works 
 - []: Quan, Jules: Try to get the RPi emulators running at home.
 ### week 1 comments (to be updated)
 
