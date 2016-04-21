@@ -25,7 +25,9 @@
 - use git clone
 - don't know what else yet
 
-### HOW TO GET IP ADDRESS OF THE RPi (IMPORTANT)
+### HOW TO GET IP ADDRESS OF THE RPi (TO BE DONE BY QUAN))
 - (i dont know yet, ask arthur)
+
+### WHERE TO STORE FILES ON RPI AND HOW TO IMPORT LIBRARY  (To be done by quan)
 
 ###there is also an emulator that is on the ENGR 101 fb page, ill sort it out soon.
