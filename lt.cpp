@@ -1,5 +1,3 @@
-/*SKELETON CODES FOR AVC */
-/*  A.Roberts, 5 Apr 2016*/
 #include <stdio.h>
 
 //#include <pthread.h>
@@ -54,42 +52,38 @@ int main()
     while(1)
     {
        take_picture();      // take camera shot
-       int white[32];
+       int white[32]; //creates the array that we'll use to scan 32 pixels accross the camera
+       
+       //
        for ( i=0; i<32;i++)
        {   
-           white[i] = 0;
-           white[i] = ( get_pixel(10+10*i,55,3) > 100);  
-     	   printf("%d ",white[i]);
-           // draw some line
+           white[i] = 0; //sets the "i" into 0 to be used by the command below
+           white[i] = ( get_pixel(10+10*i,55,3) > 100);  //converts pixels into 1s and 0s thereby distinguishing blacks as 1 and 0 as white
+           
+           /*Since the camera sensor isn't detecting perfect white pixels consisting of 0,0,0  and perfect black pixels
+           containing 255,255,255 
+           we assumed from the code above that everything higher than 100 in digit to be classified as 1 and therefore black and
+           anything below 100 as white or light coloured */
+           
+     	   printf("%d ",white[i]); //prints the values of pixels
+           // draw some red line,  two dots above the sensor line
            set_pixel(10+i*10, 53 ,255,0,0);
            set_pixel(10+i*10, 54 ,255,0,0);
            set_pixel(10+i*10, 56 ,255,0,0);
            set_pixel(10+i*10, 57 ,255,0,0);
          }
         printf("\n");
-       // display picture
+       // displays picture
        update_screen();
 
-       // check motors
-       v_left = -135;
-       v_right = -135;
-       set_motor(1,v_right);
-       set_motor(2,v_left);
-       //Sleep(1,0);
-       v_left = 135;
-       v_right = 135;
-       set_motor(1,v_right);
-       set_motor(2,v_left);
-       //Sleep(1,0);
-     /*  for (i = 0 ; i < 8; i++)
-       {
-        int av = read_analog(i);
-        printf("ai=%d av=%d\n",i,av);
-    }
-
-*/
-     }
-
+       // runs the robot FOREVER!!!!! jk just for 10 secs in a straight line
+       for(x=0; x<10, x++){
+       Lw = 255; //left wheel 
+       Rw = 255; //right wheel
+       set_motor(1,Rw);
+       set_motor(2,Lw);
+}
+/*The code above is just for testing, it is not to be taken literally*/
    // terminate hardware
     close_screen_stream();
     set_motor(1,0);
