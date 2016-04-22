@@ -12,6 +12,8 @@ Here is our AVC checklists
 - []: Quan : find out how the makefile works 
 - []: Quan, Jules: Try to get the RPi emulators running at home.
 ### week 1 comments (to be updated)
+// makefiles is a list of commands for the shell (in our case UNIX Shell). Typing the command "make" will execute the commands listed in the makefile. 
+** Note that Arthur's makefile contains the compiling command, that's why we have to execute it first before our AVC txt code so it compile first and add the new changes.
 
 ###Week 2 checklist
 
