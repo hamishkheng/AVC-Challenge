@@ -14,6 +14,8 @@
 
 ### Compiling via makefile(JULES PLEASE EXPLAIN HOW A MAKEFILE WORKS USING COMMENTS TY xoxoxo):
 - nano makefile ( creates a makefile )
+// makefiles is a list of commands for the shell (in our case UNIX Shell). Typing the command "make" will execute the commands listed in the makefile. 
+** Note that Arthur's makefile contains the compiling command, that's why we have to execute it first before our AVC txt code so it compile first and add the new changes.
 - example:example.c
 - (remember to use tab) gcc -o example example.c
 - make
