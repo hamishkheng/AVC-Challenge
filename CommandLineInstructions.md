@@ -25,8 +25,8 @@
 - use git clone
 - don't know what else yet
 
-### HOW TO GET IP ADDRESS OF THE RPi (TO BE DONE BY QUAN))
-- 130.195.3.118
+### HOW TO GET IP ADDRESS OF THE RPi (TO BE DONE BY QUAN)) [130.195.3.118 <<== IP Address]
+- 
 
 ### WHERE TO STORE FILES ON RPI AND HOW TO IMPORT LIBRARY  (To be done by quan)
 
