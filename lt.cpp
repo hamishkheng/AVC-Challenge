@@ -8,6 +8,7 @@
 extern "C" int init_hardware();
 extern "C" int init(int d_lev);
 
+// Starting line of methods for camera
 extern "C" int take_picture();
 extern "C" char get_pixel(int row, int col, int color);
 extern "C" void set_pixel(int col, int row, char red,char green,char blue);
@@ -19,6 +20,9 @@ extern "C" int update_screen();
 extern "C" int display_picture(int delay_sec,int delay_usec);
 extern "C" int save_picture(char filename[5]);
 
+//End of methods for camera
+
+//Start of methods for motor
 extern "C" int set_motor(int motor,int speed);
 
 extern "C" int read_analog(int ch_adc);
@@ -28,9 +32,14 @@ extern "C" int write_digital(int chan,char level);
 extern "C" int read_digital(int chan);
 extern "C" int set_PWM(int chan, int value);
 
+//End of methods for motor
+
+//Start of network methods 
 extern "C" int connect_to_server( char server_addr[15],int port);
 extern "C" int send_to_server(char message[24]);
 extern "C" int receive_from_server(char message[24]);
+//End of network methods
+
 
 
 int v_left = 0;
@@ -76,14 +85,14 @@ int main()
        // displays picture
        update_screen();
 
-       // runs the robot FOREVER!!!!! jk just for 10 secs in a straight line
+       // runs the robot FOREVER!!!!! jk just for 10 secs in a straight line :* 
        for(x=0; x<10, x++){
        Lw = 255; //left wheel 
        Rw = 255; //right wheel
        set_motor(1,Rw);
        set_motor(2,Lw);
 }
-/*The code above is just for testing, it is not to be taken literally*/
+/*The code above is just for testing, it is not to be taken as final*/
    // terminate hardware
     close_screen_stream();
     set_motor(1,0);
