@@ -12,8 +12,12 @@ Here is our AVC checklists
 - []: Quan : find out how the makefile works 
 - []: Quan, Jules: Try to get the RPi emulators running at home.
 ### week 1 comments (to be updated)
-// makefiles is a list of commands for the shell (in our case UNIX Shell). Typing the command "make" will execute the commands listed in the makefile. 
+
+** makefiles is a list of commands for the shell (in our case UNIX Shell). Typing the command "make" will execute the commands listed in the makefile. 
+
 ** Note that Arthur's makefile contains the compiling command, that's why we have to execute it first before our AVC txt code so it compile first and add the new changes.
+
+** command "ifconfig" gives you the ip address of the RPi, it has to be connected to the network though and constantly update for the code [obviously you either need to connect the RPi from the station computer (one at the entrance) or to the monitor and keyboard in any PC]
 
 ###Week 2 checklist
 
