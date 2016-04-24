@@ -85,12 +85,23 @@ int main()
        // displays picture
        update_screen();
 
-       // runs the robot FOREVER!!!!! jk just for 10 secs in a straight line :* 
-       for(x=0; x<10, x++){
+       /*code for the robot camera-wheel coordination */
+       
        Lw = 255; //left wheel 
        Rw = 255; //right wheel
-       set_motor(1,Rw);
-       set_motor(2,Lw);
+       while (white[0,12]){ // gives a true value when the white line is detected in the left side of the camera
+        set_motor(1,Rw);
+        set_motor(2,Lw/2); //slows down the left wheel thus turning the robot to a slight left angle
+        
+       while(white[20,32]){ // gives a true value when the white line is detected in the right side of the camera
+        set_motor(1,Rw/2); //slows down the right wheel thus turning the robot to a slight right angle
+        set_motor(2,Lw);
+       }
+       while (white[12,20]){ //returns true when the whte line is detected at the middle of the camera
+        set_motor(1,Rw); 
+        set_motor(2,Lw);
+        // both are running at the same speed so the robot continues in a staright line
+       }
 }
 /*The code above is just for testing, it is not to be taken as final*/
    // terminate hardware
