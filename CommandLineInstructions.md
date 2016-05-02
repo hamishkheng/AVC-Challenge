@@ -14,8 +14,8 @@
 
 ### Compiling via makefile(JULES PLEASE EXPLAIN HOW A MAKEFILE WORKS USING COMMENTS TY xoxoxo):
 - nano makefile ( creates a makefile )
-- example:example.c
-- (remember to use tab) gcc -o example example.c
+-                 example:example.c
+-               (remember to use tab) gcc -o example example.c
 - make
 - ./example
 
