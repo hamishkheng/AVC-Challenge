@@ -40,11 +40,12 @@ extern "C" int send_to_server(char message[24]);
 extern "C" int receive_from_server(char message[24]);
 //End of network methods
 
-
-
-int v_left = 0;
-int v_right = 0;
-
+	int v_left;
+	int v_right;
+	int i_start = 1000;
+	int i_fin = 0;       
+	int i_centre = -10000;
+ 
 int main()
 {
     int i;
@@ -67,7 +68,7 @@ int main()
        for ( i=0; i<32;i++)
        {   
            white[i] = 0; //sets the "i" into 0 to be used by the command below
-           white[i] = ( get_pixel(10+10*i,55,3) > 100);  //converts pixels into 1s and 0s thereby distinguishing blacks as 1 and 0 as white
+           white[i] = ( get_pixel(10+10*i,55,3) > 130);  //converts pixels into 1s and 0s thereby distinguishing blacks as 1 and 0 as white
            
            /*Since the camera sensor isn't detecting perfect white pixels consisting of 0,0,0  and perfect black pixels
            containing 255,255,255 
@@ -84,24 +85,35 @@ int main()
         printf("\n");
        // displays picture
        update_screen();
-
-       /*code for the robot camera-wheel coordination */
        
-       Lw = 255; //left wheel 
-       Rw = 255; //right wheel
-       while (white[0,12]){ // gives a true value when the white line is detected in the left side of the camera
-        set_motor(1,Rw);
-        set_motor(2,Lw/2); //slows down the left wheel thus turning the robot to a slight left angle
-        
-       while(white[20,32]){ // gives a true value when the white line is detected in the right side of the camera
-        set_motor(1,Rw/2); //slows down the right wheel thus turning the robot to a slight right angle
-        set_motor(2,Lw);
-       }
-       while (white[12,20]){ //returns true when the whte line is detected at the middle of the camera
-        set_motor(1,Rw); 
-        set_motor(2,Lw);
-        // both are running at the same speed so the robot continues in a staright line
-       }
+	for(i =0; i < 31; i++){//lines up red lines 
+		if ((white[i] == 0 )&&(white [ i+1] == 1)){
+		i_start = i;
+		}
+		if ((white[i]==1)&&(white[i+1]==0)){
+		i_fin = i;
+		}
+		i_centre = (i_start + i_fin)/2;
+		printf("%d\n", i_centre);
+	}	
+	if ((i_centre>14)&&(i_centre<18)){
+		set_motor(1,70);
+		set_motor(2,70);
+}
+	else if(i_centre<12) {
+		set_motor(1,70);
+		set_motor(2,30);
+}
+
+	else if(i_centre>20){
+		set_motor(1,30);
+		set_motor(2,70);
+}
+
+	else {
+	set_motor(1,-50);
+	set_motor(2,-50);
+}
 }
 /*The code above is just for testing, it is not to be taken as final*/
    // terminate hardware
