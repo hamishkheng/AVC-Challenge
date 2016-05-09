@@ -71,8 +71,17 @@ int main()
       write_digital(i,1);
     }
     
+    connect_to_server("192.168.1.2", 1024); //IP ADDRESS NEEDS TO BE CHANGED
+        //sends a message to the connected server
+        send_to_server("Please");
+        //receives message from the connected server
+        char message[24];
+        
+        receive_from_server(message); //this may be buggy!
+        printf("%s", message);
+    
     while (1) { //run forever
-        take_picture();
+        
         // left_IR = read_analog(0);
         // right_IR = read_analog(1);
         //forward_IR = read_analog (2); 
@@ -80,26 +89,19 @@ int main()
         //havent plugged in the IR sensors yet so that is just there for future reference
         
         while (1) { //where the IR conditions comes in later 
+            take_picture();
         
-        connect_to_server("192.168.1.2", 1024);
-        //sends a message to the connected server
-        send_to_server("please");
-        //receives message from the connected server
-        char message[24];
-        
-        receive_from_server(message); //this may be buggy!
-        printf("%s", message);
         
             int white[320]; //improved accuracy to every single pixel;
             
             for (i = 0; i <320; i++) {
-                int w = get_pixel(i+1,55,3); // 1 to 320
-                if (w > 127) {w = 1;}; //same thing as jules part but more easy to understand
+                int w = get_pixel(i,55,3); // 1 to 320
+                if (w > 140) {w = 1;}; //same thing as jules part but more easy to understand
                 else {w = 0;};
                 
                 white[i] = w;
                 
-                set_pixel(i+1, 54 ,255,0,0); //creates a redline to show where camera is taking pixels from
+                set_pixel(i, 54 ,255,0,0); //creates a redline to show where camera is taking pixels from
             }
             
             update_screen();
@@ -122,7 +124,7 @@ int main()
                     ((white[i-1] == 1) && (white[i] == 1) && (white[i+1] == 0)) || //end of white line 
                     ((white[318] == 1) && (white[319] == 0)) //execption for when line ends at the very edge of the screen
                 ) {
-                    ln_fin = (i-160+1);//so that 160 becomes exclusive instead of inclusive
+                    ln_fin = (i-160);
                 }
  
             }
@@ -139,10 +141,10 @@ int main()
             printf("derivative_signal: %d   ", derivative_signal);
             printf("\n"); //print format will be "current error: x    proportional signal: x   derivative signal: x   "
             
-            total_signal = (int) (current_signal - derivative_signal + 0.5); //0.5 is to counter the rounding error from doubles
+            total_signal = (int) (proportional_signal + derivative_signal + 0.5); //0.5 is to counter the rounding error from doubles
             
             if (current_error > -160 && current_error < 160) {//line within picture
-            
+             
                 set_motor(1,50+total_signal); //the left motor will increase when the line is to the right ( to turn right)
                 set_motor(2,50-total_signal); //the right motor will decrease if the line is to the right (to help turn right)
             }
@@ -157,9 +159,9 @@ int main()
         
     }
     //terminate hardware;
-    close_screen_stream();
-    set_motor(1,0);
-    set_motor(2,0);
+    //close_screen_stream();
+    //set_motor(1,0);
+    //set_motor(2,0);
     return 0;
 }
 
