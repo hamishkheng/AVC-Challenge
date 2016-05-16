@@ -46,8 +46,8 @@ extern "C" int receive_from_server(char message[24]);
     int ln_start;
     int ln_fin;
     
-    double kp = 1; //maximum proportional gain in speed is 32 and -32 (a 64 speed difference between the two wheels)
-    double kd = 0.05; //maximum resist is 32 the other way when it turns too fast; 
+    double kp = 1.5; //maximum proportional gain in speed is 32 and -32 (a 64 speed difference between the two wheels)
+    double kd = 0.005; //maximum resist is 32 the other way when it turns too fast; 
     
     double proportional_signal;
     double derivative_signal;
@@ -62,7 +62,7 @@ extern "C" int receive_from_server(char message[24]);
 int main()
 {
     int i;
-    init(1);
+    init(0);
     open_screen_stream(); // connect camera to the screen
     for (i = 0; i < 8; i++) // set all didgital outputs to +5V
     {
@@ -71,14 +71,14 @@ int main()
       write_digital(i,1);
     }
     
-    connect_to_server("192.168.1.2", 1024); //IP ADDRESS NEEDS TO BE CHANGED
+    	//connect_to_server("130.195.6.196", 1024); //IP ADDRESS NEEDS TO BE CHANGED
         //sends a message to the connected server
-        send_to_server("Please");
+        //send_to_server("Please");
         //receives message from the connected server
-        char message[24];
+        //char message[24];
         
-        receive_from_server(message); //this may be buggy!
-        printf("%s", message);
+        //receive_from_server(message); //this may be buggy!
+        //printf("%s", message);
     
     while (1) { //run forever
         
@@ -95,35 +95,31 @@ int main()
             int white[64]; //improved accuracy to every single pixel;
             
             for (i = 0; i <64; i++) {
-                int w = get_pixel(i,55,3); // 1 to 320
-                if (w > 140) {w = 1;}; //same thing as jules part but more easy to understand
-                else {w = 0;};
+                int w = get_pixel(i*5,55,3); // 1 to 320
+                if (w > 140) {w = 1;} //same thing as jules part but more easy to understand
+                else {w = 0;}
                 
                 white[i] = w;
                 
                 set_pixel(i, 54 ,255,0,0); //creates a redline to show where camera is taking pixels from
+		printf("%d ", white[i]);
+	
             }
             
             update_screen();
             
-            for(i = 0; i <64; i++ ) { //separate for loops despite same loop conditions
+            for(i = 1; i <64; i++ ) { //separate for loops despite same loop conditions
             //this won't work if it is inside the previous loop because 
             //the array wouldn't have finalized then
             
-                if ( //refined to have better chance of dealing with outliers
-                    ((white[i-1] == 0) && (white[i] == 1) && (white[i+1] == 1)) || //start of white line 
-                    ((white[0] == 1) && (white[1] == 1)) //execption for when line starts at the very edge of the screen
-                ) {
+                if  ((white[i-1] == 0) && (white[i] == 1)) {
                     ln_start = (i-32); //to offset the pixels to -32 to 32
                     //this is very crucial because -(ve) on left side and +(ve) on right side
                     //is needed to calculate the motor speed for left and right using the PID
                     
                 }
                 
-                if ( //refined to have better chance of dealing with outliers
-                    ((white[i-1] == 1) && (white[i] == 1) && (white[i+1] == 0)) || //end of white line 
-                    ((white[62] == 1) && (white[63] == 0)) //execption for when line ends at the very edge of the screen
-                ) {
+                if  ((white[i] == 1) && (white[i+1] == 0)) {
                     ln_fin = (i-32);
                 }
  
@@ -131,27 +127,29 @@ int main()
             current_error = (ln_start + ln_fin)/2; //center of the line
             //center of the line is now outside the for loop so that it is only set ONCE 
             
-            printf("current_error: %d   ", current_error);
+            printf("current_error: %f", current_error);
+            printf ("\n");
             proportional_signal = current_error*kp;
-            printf("proportional_signal: %d   ", proportional_signal);
-            Sleep(0,100000); // 1/10th of a second
+            //printf("proportional_signal: %f   ", proportional_signal);
+            Sleep(0,10000); // 1/100th of a second
             
-            derivative_signal = ((current_error-previous_error)/0.1)*kd;
+            derivative_signal = ((current_error-previous_error)/0.01)*kd;
             previous_error = current_error;
-            printf("derivative_signal: %d   ", derivative_signal);
-            printf("\n"); //print format will be "current error: x    proportional signal: x   derivative signal: x   "
+            //printf("derivative_signal: %f   ", derivative_signal);
+            //printf("\n"); //print format will be "current error: x    proportional signal: x   derivative signal: x   "
             
             total_signal = (int) (proportional_signal + derivative_signal + 0.5); //0.5 is to counter the rounding error from doubles
             
             if (current_error > -32 && current_error < 32) {//line within picture
-             
-                set_motor(1,50+total_signal); //the left motor will increase when the line is to the right ( to turn right)
-                set_motor(2,50-total_signal); //the right motor will decrease if the line is to the right (to help turn right)
+		set_motor(1, -50 + total_signal); //the left motor will increase when the line is to the right ( to turn right)
+                set_motor(2, -50 - total_signal); //the right motor will decrease if the line is to the right (to help turn right)
+		 
             }
+
             
             else {
-                set_motor(1,-40);
-                set_motor(2,-40);
+               // set_motor(1,-40);
+                //set_motor(2,-40);
                 //reverse the PI so that it doesnt keep going
                 //will be refined later
             }
