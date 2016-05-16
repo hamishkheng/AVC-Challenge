@@ -93,7 +93,7 @@ int main()
         
         
             int white[64]; //improved accuracy to every single pixel;
-            
+        	int sum =  
             for (i = 0; i <64; i++) {
                 int w = get_pixel(i*5,55,3); // 1 to 320
                 if (w > 140) {w = 1;} //same thing as jules part but more easy to understand
@@ -103,7 +103,7 @@ int main()
                 
                 set_pixel(i, 54 ,255,0,0); //creates a redline to show where camera is taking pixels from
 		printf("%d ", white[i]);
-	
+				sum = sum + white[i];
             }
             
             update_screen();
@@ -128,6 +128,7 @@ int main()
             //center of the line is now outside the for loop so that it is only set ONCE 
             
             printf("current_error: %f", current_error);
+            printf ("sum = %d", sum);
             printf ("\n");
             proportional_signal = current_error*kp;
             //printf("proportional_signal: %f   ", proportional_signal);
@@ -140,16 +141,16 @@ int main()
             
             total_signal = (int) (proportional_signal + derivative_signal + 0.5); //0.5 is to counter the rounding error from doubles
             
-            if (current_error > -32 && current_error < 32) {//line within picture
-		set_motor(1, -50 + total_signal); //the left motor will increase when the line is to the right ( to turn right)
+            if (sum != 0 ) {//line within picture
+				set_motor(1, -50 + total_signal); //the left motor will increase when the line is to the right ( to turn right)
                 set_motor(2, -50 - total_signal); //the right motor will decrease if the line is to the right (to help turn right)
 		 
             }
 
             
             else {
-               // set_motor(1,-40);
-                //set_motor(2,-40);
+               set_motor(1,40);
+                set_motor(2,40);
                 //reverse the PI so that it doesnt keep going
                 //will be refined later
             }
