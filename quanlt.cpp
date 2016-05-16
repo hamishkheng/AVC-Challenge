@@ -46,8 +46,8 @@ extern "C" int receive_from_server(char message[24]);
     int ln_start;
     int ln_fin;
     
-    double kp = 0.25; //maximum proportional gain in speed is 40
-    double kd = 0.01; //maximum resist is 32 the other way when it turns too fast; 
+    double kp = 1; //maximum proportional gain in speed is 32 and -32 (a 64 speed difference between the two wheels)
+    double kd = 0.05; //maximum resist is 32 the other way when it turns too fast; 
     
     double proportional_signal;
     double derivative_signal;
@@ -92,9 +92,9 @@ int main()
             take_picture();
         
         
-            int white[320]; //improved accuracy to every single pixel;
+            int white[64]; //improved accuracy to every single pixel;
             
-            for (i = 0; i <320; i++) {
+            for (i = 0; i <64; i++) {
                 int w = get_pixel(i,55,3); // 1 to 320
                 if (w > 140) {w = 1;}; //same thing as jules part but more easy to understand
                 else {w = 0;};
@@ -106,7 +106,7 @@ int main()
             
             update_screen();
             
-            for(i = 0; i <320; i++ ) { //separate for loops despite same loop conditions
+            for(i = 0; i <64; i++ ) { //separate for loops despite same loop conditions
             //this won't work if it is inside the previous loop because 
             //the array wouldn't have finalized then
             
@@ -114,7 +114,7 @@ int main()
                     ((white[i-1] == 0) && (white[i] == 1) && (white[i+1] == 1)) || //start of white line 
                     ((white[0] == 1) && (white[1] == 1)) //execption for when line starts at the very edge of the screen
                 ) {
-                    ln_start = (i-160); //to offset the pixels to -160 to 160
+                    ln_start = (i-32); //to offset the pixels to -32 to 32
                     //this is very crucial because -(ve) on left side and +(ve) on right side
                     //is needed to calculate the motor speed for left and right using the PID
                     
@@ -122,9 +122,9 @@ int main()
                 
                 if ( //refined to have better chance of dealing with outliers
                     ((white[i-1] == 1) && (white[i] == 1) && (white[i+1] == 0)) || //end of white line 
-                    ((white[318] == 1) && (white[319] == 0)) //execption for when line ends at the very edge of the screen
+                    ((white[62] == 1) && (white[63] == 0)) //execption for when line ends at the very edge of the screen
                 ) {
-                    ln_fin = (i-160);
+                    ln_fin = (i-32);
                 }
  
             }
@@ -143,7 +143,7 @@ int main()
             
             total_signal = (int) (proportional_signal + derivative_signal + 0.5); //0.5 is to counter the rounding error from doubles
             
-            if (current_error > -160 && current_error < 160) {//line within picture
+            if (current_error > -32 && current_error < 32) {//line within picture
              
                 set_motor(1,50+total_signal); //the left motor will increase when the line is to the right ( to turn right)
                 set_motor(2,50-total_signal); //the right motor will decrease if the line is to the right (to help turn right)
