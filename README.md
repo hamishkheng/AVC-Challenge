@@ -44,6 +44,8 @@ Here is our AVC checklists
 - [] Quan:  Tidy up and refine robot movement code, and also networking code if have time
 - [] Hamish, Nikhil: Start building the chassis, characterise motors, prototype designs & hardware
 
+** Building/constructing is currently in progress as well. The 3D models have been designed but currently no 3D printers are available which pushes the team back on time. The hardware team need to change the placement of some components, re-wrire them, and make it more compact. 
+
 ###week 4 checklist (Quadrant 2)
 
 ###week 5 checklist (Quadrant 3) (Progress Report Due)
