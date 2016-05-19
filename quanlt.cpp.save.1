@@ -40,13 +40,13 @@ extern "C" int receive_from_server(char message[24]);
     
     //fields for PID loop
     
-    double current_error = 0; //replace for line center
+    double current_error = -10000; //replace for line center
     double previous_error = 0;
     
     int ln_start;
     int ln_fin;
     
-    double kp = 4.0; //maximum proportional gain in speed is 32 and -32 (a 64 speed difference between the two wheels)
+    double kp = 1; //maximum proportional gain in speed is 32 and -32 (a 64 speed difference between the two wheels)
     double kd = 0.05; //maximum resist is 32 the other way when it turns too fast; 
     
     double proportional_signal;
@@ -58,25 +58,11 @@ extern "C" int receive_from_server(char message[24]);
     int left_IR = 99999;
     int right_IR = 99999;
     int forward_IR;
-
-int turnLeft() {
-    return 0; //for the maze
-    
-}
-
-int turnRight() {
-	set_motor(2,100);
-	set_motor(1,-100);
-	Sleep(0,100000);
-    return 0; //for the maze
-    
-}
-
     
 int main()
 {
     int i;
-    init(0);
+    init(1);
     open_screen_stream(); // connect camera to the screen
     for (i = 0; i < 8; i++) // set all didgital outputs to +5V
     {
@@ -107,73 +93,73 @@ int main()
         
         
             int white[64]; //improved accuracy to every single pixel;
-            int sum = 0;
+            
             for (i = 0; i <64; i++) {
-                int w = get_pixel(i*5,55,3); // 1 to 320
+                int w = get_pixel(i,55,3); // 1 to 320
                 if (w > 140) {w = 1;} //same thing as jules part but more easy to understand
                 else {w = 0;}
                 
                 white[i] = w;
                 
-                set_pixel(i, 54 ,255,0,0); //creates a redline to show where camera is taking pixels from
-		printf("%d ", white[i]);
-		sum = sum + white[i];
+                set_pixel(i, 54 ,255,0,0);
+	 //creates a redline to show where camera is taking pixels from
             }
             
             update_screen();
             
-            for(i = 1; i <64; i++ ) { //separate for loops despite same loop conditions
+            for(i = 1; i <64-1; i++ ) { //separate for loops despite same loop conditions
             //this won't work if it is inside the previous loop because 
             //the array wouldn't have finalized then
             
-                if  ((white[i-1] == 0) && (white[i] == 1)) {
+                if ( //refined to have better chance of dealing with outliers
+                    ((white[i-1] == 0) && (white[i] == 1) && (white[i+1] == 1)) || //start of white line 
+                    ((white[0] == 1) && (white[1] == 1)) //execption for when line starts at the very edge of the screen
+                ) {
                     ln_start = (i-32); //to offset the pixels to -32 to 32
                     //this is very crucial because -(ve) on left side and +(ve) on right side
                     //is needed to calculate the motor speed for left and right using the PID
                     
                 }
                 
-                if  ((white[i] == 1) && (white[i+1] == 0)) {
+                if ( //refined to have better chance of dealing with outliers
+                    ((white[i-1] == 1) && (white[i] == 1) && (white[i+1] == 0)) || //end of white line 
+                    ((white[62] == 1) && (white[63] == 0)) //execption for when line ends at the very edge of the screen
+                ) {
                     ln_fin = (i-32);
                 }
  
-            }
-            if ((ln_fin - ln_start) < 20) { //if the width of the whiteness is small enougn
-		current_error = (ln_start + ln_fin)/2; //center of the line 
-		}
-
-	    else {current_error  =  0;}           //center of the line is now outside the for loop so that it is only set ONCE 
-            
-            printf("current_error: %f", current_error);
-            printf (" sum : %d \n", sum);
+           
+            current_error = (ln_start + ln_fin)/2; //center of the line
+            //center of the line is now outside the for loop so that it is only set ONCE 
+	            
+            //printf("current_error: %f", current_error);
             proportional_signal = current_error*kp;
             //printf("proportional_signal: %f   ", proportional_signal);
-            Sleep(0,10000); // 1/100th of a second
+            Sleep(0,100000); // 1/10th of a second
             
+            derivative_signal = ((current_error-previous_error)/0.1)*kd;
             previous_error = current_error;
             //printf("derivative_signal: %f   ", derivative_signal);
-            //printf("\n"); //print format will be "current error: x    proportional signal: x   derivative signal: x   "
+            printf("\n"); //print format will be "current error: x    proportional signal: x   derivative signal: x   "
             
             total_signal = (int) (proportional_signal + derivative_signal + 0.5); //0.5 is to counter the rounding error from doubles
             
-
-            if (sum != 0) {//line within picture
-		set_motor(1, -120 + total_signal); //the left motor will increase when the line is to the right ( to turn right)
-                set_motor(2, -120 - total_signal); //the right motor will decrease if the line is to the right (to help turn right)		 
+            if (current_error > -32 && current_error < 32) {//line within picture
+		set_motor(1, -50 + total_signal * 2); //the left motor will increase when the line is to the right ( to turn right)
+                set_motor(2, -50 - total_signal * 2); //the right motor will decrease if the line is to the right (to help turn right)
+		 
             }
 
             
-            else { 
-               set_motor(1,70);
-               set_motor(2,70);
+            else {
+               // set_motor(1,-40);
+                //set_motor(2,-40);
                 //reverse the PI so that it doesnt keep going
                 //will be refined later
-		Sleep(0,100000);
-		//turnRight();
             }
         }
-}        
-    
+        
+    }
     //terminate hardware;
     //close_screen_stream();
     //set_motor(1,0);
@@ -181,8 +167,16 @@ int main()
     return 0;
 }
 
+int turnLeft() {
+    return 0; //for the maze
     
-    
-    
-    
+}
 
+int turnRight() {
+    return 0; //for the maze
+    
+}
+    
+    
+    
+    
