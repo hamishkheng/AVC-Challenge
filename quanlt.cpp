@@ -163,8 +163,8 @@ int main()
             //printf("proportional_signal: %f   ", proportional_signal);
             Sleep(0,10000); // 1/100th of a second
             if (sum != 0) {
-            previous_error = current_error;
-}	
+               previous_error = current_error;
+	    }	
 	
             //printf("derivative_signal: %f   ", derivative_signal);
             //printf("\n"); //print format will be "current error: x    proportional signal: x   derivative signal: x   "
@@ -185,7 +185,6 @@ int main()
                 //will be refined later
 	
 		turnLeft(); //ninty degrees
-            }
 
 
             else if (sum == 0 && mazeMode == true && previous_error > 0){	
@@ -215,9 +214,3 @@ int main()
     //set_motor(2,0);
     return 0;
 }
-
-    
-    
-    
-    
-

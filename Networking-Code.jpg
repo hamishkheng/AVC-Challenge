@@ -1,0 +1,10 @@
+int main (){
+
+   init(1);
+   connect_to_server("130.195.6.196", 1024);
+   send_to_server("Please");
+   char message[24];
+   receive_from_server(message);
+   printf("%s", message);
+   
+return 0;}
