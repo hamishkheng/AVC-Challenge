@@ -40,24 +40,46 @@ extern "C" int receive_from_server(char message[24]);
     
     //fields for PID loop
     
-    double current_error = -10000; //replace for line center
+    double current_error = 0; //replace for line center
     double previous_error = 0;
     
     int ln_start;
     int ln_fin;
     
-    double kp = 1.5; //maximum proportional gain in speed is 32 and -32 (a 64 speed difference between the two wheels)
-    double kd = 0.005; //maximum resist is 32 the other way when it turns too fast; 
+    double kp = 1.140; //maximum proportional gain in speed is 32 and -32 (a 64 speed difference between the two wheels)
+    double kd = 0.015; //maximum resist is 32 the other way when it turns too fast; 
     
     double proportional_signal;
     double derivative_signal;
     int total_signal;
     
     // fields for IR sensor loop
-    
-    int left_IR = 99999;
-    int right_IR = 99999;
+    int sum;
+    int left_IR;
+    int right_IR;
     int forward_IR;
+    bool mazeMode = false;
+int turnLeft() {
+
+
+	set_motor(2,0);
+	set_motor(1,60);
+	Sleep(0,350000);
+	
+    return 0; //for the maze
+    
+}
+
+int turnRight() {
+	
+	set_motor(2,60);
+	set_motor(1,0);
+	Sleep(0,350000);
+	
+    return 0; 
+    
+}
+
     
 int main()
 {
@@ -93,17 +115,21 @@ int main()
         
         
             int white[64]; //improved accuracy to every single pixel;
-            
+            sum = 0;
             for (i = 0; i <64; i++) {
-                int w = get_pixel(i*5,55,3); // 1 to 320
-                if (w > 140) {w = 1;} //same thing as jules part but more easy to understand
+                int w = get_pixel(i*5,130,3); // 1 to 320
+                if (w > 120) {w = 1;} //same thing as jules part but more easy to understand
                 else {w = 0;}
                 
                 white[i] = w;
                 
                 set_pixel(i, 54 ,255,0,0); //creates a redline to show where camera is taking pixels from
 		printf("%d ", white[i]);
-	
+		sum = sum + white[i];
+
+		if (sum > 54) {
+		 mazeMode = true;
+		}
             }
             
             update_screen();
@@ -124,38 +150,65 @@ int main()
                 }
  
             }
-            current_error = (ln_start + ln_fin)/2; //center of the line
-            //center of the line is now outside the for loop so that it is only set ONCE 
+            if ((ln_fin - ln_start) < 20) { //if the width of the whiteness is small enougn
+		current_error = (ln_start + ln_fin)/2; //center of the line 
+		}
+
+	    else {current_error  =  0;}           //center of the line is now outside the for loop so that it is only set ONCE 
             
-            printf("current_error: %f", current_error);
-            printf ("\n");
+            printf("current_error & previous error: %f %f", current_error, previous_error);
+            printf (" sum : %d \n", sum);
             proportional_signal = current_error*kp;
+	    derivative_signal = (current_error - previous_error)/0.01*kd;
             //printf("proportional_signal: %f   ", proportional_signal);
             Sleep(0,10000); // 1/100th of a second
-            
-            derivative_signal = ((current_error-previous_error)/0.01)*kd;
+            if (sum != 0) {
             previous_error = current_error;
+}	
+	
             //printf("derivative_signal: %f   ", derivative_signal);
             //printf("\n"); //print format will be "current error: x    proportional signal: x   derivative signal: x   "
             
-            total_signal = (int) (proportional_signal + derivative_signal + 0.5); //0.5 is to counter the rounding error from doubles
+            total_signal = (int) (proportional_signal + derivative_signal); //0.5 is to counter the rounding error from doubles
             
-            if (current_error > -32 && current_error < 32) {//line within picture
-		set_motor(1, -50 + total_signal); //the left motor will increase when the line is to the right ( to turn right)
-                set_motor(2, -50 - total_signal); //the right motor will decrease if the line is to the right (to help turn right)
-		 
+		
+
+            if (sum != 0) {//linewithin picture
+		set_motor(1, -50 - total_signal); //the left motor will increase when the line is to the right ( to turn right)
+                set_motor(2, -50 + total_signal); //the right motor will decrease if the line is to the right (to help turn right)		 
             }
 
             
-            else {
-               // set_motor(1,-40);
-                //set_motor(2,-40);
-                //reverse the PI so that it doesnt keep going
+            else if (sum == 0 && mazeMode == true && previous_error < 0){	
+         
+		//reverse the PI so that it doesnt keep going
                 //will be refined later
+	
+		turnLeft(); //ninty degrees
             }
+
+
+            else if (sum == 0 && mazeMode == true && previous_error > 0){	
+         
+		//reverse the PI so that it doesnt keep going
+                //will be refined later
+	
+		turnRight(); //ninty degrees
+            }
+
+
+	    //else if (sum == 0 && mazeMode == true && previous_error > 0) {
+		//turnRight(); //ninty degrees
+	    //}
+
+	    else if (sum == 0 && mazeMode == false){
+            set_motor(1,60);
+	    set_motor(2,60);
+ 
+	}
         }
-        
-    }
+}        
+    
     //terminate hardware;
     //close_screen_stream();
     //set_motor(1,0);
@@ -163,16 +216,8 @@ int main()
     return 0;
 }
 
-int turnLeft() {
-    return 0; //for the maze
     
-}
+    
+    
+    
 
-int turnRight() {
-    return 0; //for the maze
-    
-}
-    
-    
-    
-    
