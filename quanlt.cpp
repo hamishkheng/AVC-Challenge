@@ -186,7 +186,8 @@ int main()
 	
 		turnLeft(); //ninty degrees
 
-
+            }
+            
             else if (sum == 0 && mazeMode == true && previous_error > 0){	
          
 		//reverse the PI so that it doesnt keep going
