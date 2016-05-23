@@ -36,7 +36,7 @@ Here is our AVC checklists
 - Hardware team have not finished their designs, was carried onto week three
 - Little to do as there was the mid term break
 
-###week 3 checklist (Quadrant 1)
+###Week 3 checklist (Quadrant 1)
 
 - [] (All) Write Methods section (robot description)
 - [x] Sam: overlook team progress, plan for following week, keep github updated
@@ -44,8 +44,26 @@ Here is our AVC checklists
 - [] Quan:  Tidy up and refine robot movement code, and also networking code if have time
 - [] Hamish, Nikhil: Start building the chassis, characterise motors, prototype designs & hardware
 
-###week 4 checklist (Quadrant 2)
+###Week 4 checklist (Quadrant 2)
 
-###week 5 checklist (Quadrant 3) (Progress Report Due)
+- [] (All): Write Discussion/Results section
+- [] Sam: provide help to both hardware and software where needed, ensure members are on track for progress report
+- [] Jules: further develope movement code for quadrant 2 & 3
+- [] Quan: refine movement code to ensure quadrant 2 completion and develope for quadrant 3
+- [] Hamish, Nikhil: finalise designs and continue printing chassis parts, designs IR sensor mounts
 
-###week 6 checklist (Quadrant 4)
+###Week 5 checklist (Quadrant 3) (Progress Report Due)
+
+- [] (All): Hand in progress report/re-write final report based on feedback 
+- [] Sam: continue providing help to both hardware and software, ensure github is maintained
+- [] Jules: continue developing movement code for quadrant 3 and adapt for quadrant 4
+- [] Quan: continue developing movement code for quadrant 3 and adapt for quadrant 4
+- [] Hamish, Nikhil: continue/finish printing parts for chassis, make any changes necessary changes for better performance
+
+###Week 6 checklist (Quadrant 4)
+
+- [] (All): continue re-writing final report based on progress feedback
+- [] Sam: ensure both hardware and software are meeting requirments, continue providing help and keep github updated
+- [] Jules: finish code for quadrant 4 and 3 so robot and traverse maze
+- [] Quan: fix any bugs in code as well as supply help for movement code quadrant 4
+- [] Hamish, Nikhil: finish printing hardware and assemble  
