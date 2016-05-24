@@ -1,0 +1,98 @@
+//The fields you have depend on how you want to code it. It is good to set many values to fields so that you can
+//quickly edit how your code works by simply changing the numbers up here (instead of having to change them 
+//all around the code).
+//Some fields you can have are:
+int limit;  //The limit of difference between the two distance sensors before the robot starts to adjust. This 
+            //ensures that the robot stays in a straight line when going forward along a straight path.
+            
+int baseV;  //The base voltage for normal speed of the motor, ie, for going in straight lines
+int slowV;  //The voltage level for a slowed down wheel. This may be 0, or just very small. Used for turning
+//The other option for turning is to set one motor to baseV, and the other to -baseV, then perform a 90 degree turn
+
+int distL;  //The distance values for the sensors. L is left, R is right, F is forward. When you
+int distR;  
+int distF;
+
+int motorL; //The number values for the two motors, these are probably just 1 and 2
+int motorR;
+
+int timeTo90; //The time it takes for the robot to turn 90 degrees, only really used if you're not relying on slowV to
+              //turn the robot.
+int timeTo180;  //Time to turn the robot 180 degrees. This can be set, like the above, with calibration of the robot at the start of its run
+
+int noWallVal;  //The value from the distance sensors (ish) if there is no wall
+int wallVal;  //The value from the distance sensors if there is a wall
+//Experiment with these values. You can possibly completely ignore wallVal as a field, and just use < noWallVal and > noWallVal
+
+int difference; //The difference between the left and right sensors, dictates how straight the robot is going (if it's centred in lane)
+
+  void setup() {
+      //Setup the code, this includes things like starting up the print out ability (system.initialize or whatevever)
+      //and defining the values for your fields (you can also do that above if you want)
+  }
+  
+  void loop() {
+    // put your main code here, to run repeatedly:
+
+    //if you want it to hug the left wall, remove the distR check up here, your first priority will be turn left and you
+    //will never turn right.
+    if (distR <= noWallVal) {
+       turnRight();
+    }
+    else if (distL <= noWallVal) {
+      turnLeft();
+    }
+    else if (backup)  //All sensors have detected a wall, need to reverse/ turn around
+       if (distL >= wallVal && distR >= wallVal && distF >= wallVal) {
+          turn180 OR reverse  //Whichever method you want to implement
+       }
+    else if (notCentered)
+  }
+
+  void turnRight() {
+    //turnLeft() will be the same as this method, except that you switch -baseV and baseV for the two lines below, 
+    //so turn left will be: set_motor(motorR, baseV), set_motor(motorL, -baseV)
+    set_motor(motorR, -baseV);  //Set right motor to reverse
+    set_motor(motorL, baseV);   //Set left motor to forwards. Like turing a tank
+    delay(timeTo90); //Wait until the robot has turned 90 degrees
+
+    //If you want, you can also add this to get back between two walls after a 90 degree turn
+    set_motor(motorR, baseV);  //Set right motor to forwards
+    set_motor(motorL, baseV);   //Set left motor to forwards. Like turing a tank
+    delay(timeToGetBetweenWalls);
+  }
+
+  void turn180() {
+    //This is one way to code it:
+    set_motor(motorR, -baseV);  //Set right motor to reverse
+    set_motor(motorL, baseV);   //Set left motor to forwards. Like turing a tank
+    delay(timeTo180); //Wait until the robot has turned 90 degrees
+    
+    set_motor(motorR, baseV);  //Set right motor to forwards
+    set_motor(motorL, baseV);   //Set left motor to forwards. Like turing a tank
+    
+    //this is another way:
+    set_motor(motorR, -baseV);  //Set right motor to reverse
+    set_motor(motorL, baseV);   //Set left motor to forwards. Like turing a tank
+    while (!(distL >= wallVal && distR >= wallVal && distF <= noWallVal)) { //While we have not reached the expected end condition for the turn
+      distL = getLeftSensor();  //Updates the sensors, keep turning
+      distR = getRightSensor();
+      distF = getFrontSensor();
+    }
+    //this is optional, like in the turnRight method I wrote
+    set_motor(motorR, baseV);  //Set right motor to forwards
+    set_motor(motorL, baseV);   //Set left motor to forwards. Like turing a tank
+    delay(timeToGetBetweenWalls);
+  }
+  
+  boolean adjust() {  //Checks if the robot needs to adjust
+    difference = distL - distR; //calculate the difference
+    difference = Math.abs(difference);` //Make sure the difference is positive, if this isn't a function google how to make a value always positive
+    if (difference >= limit) {  //If the difference is bigger than we want
+      return true;  //Return true
+    }
+    return false; //Else return false
+    //As a note, you can adjust the left and right centering to 
+  }
+}
+ 
