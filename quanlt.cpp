@@ -37,22 +37,23 @@ extern "C" int connect_to_server( char server_addr[15],int port);
 extern "C" int send_to_server(char message[24]);
 extern "C" int receive_from_server(char message[24]);
 //End of network methods
-    
+
     //fields for PID loop
-    
-    double current_error = 0; //replace for line center
+
     double previous_error = 0;
-    
+    double current_error = 0; //replace for line center
+
+
     int ln_start;
     int ln_fin;
-    
-    double kp = 1.140; //maximum proportional gain in speed is 32 and -32 (a 64 speed difference between the two wheels)
-    double kd = 0.015; //maximum resist is 32 the other way when it turns too fast; 
-    
+
+    double kp = 0.95; // maximum proportional gain in speed is 32 and -32 (a 64 speed difference between the two wheels)
+    double kd = 0.01; //maximum resist is 32 the other way when it turns too fast; 
+
     double proportional_signal;
     double derivative_signal;
     int total_signal;
-    
+
     // fields for IR sensor loop
     int sum;
     int left_IR;
@@ -60,21 +61,23 @@ extern "C" int receive_from_server(char message[24]);
     int forward_IR;
     bool mazeMode = false;
 int turnLeft() {
-
-
-	set_motor(2,0);
-	set_motor(1,60);
-	Sleep(0,350000);
+	
+	set_motor(1,20);
+	set_motor(2,-95); //-100
+	 
+	Sleep(0,50000); //1000
 	
     return 0; //for the maze
     
 }
 
+
 int turnRight() {
 	
-	set_motor(2,60);
-	set_motor(1,0);
-	Sleep(0,350000);
+	set_motor(2,20);//50
+	set_motor(1,-95);//100
+
+	Sleep(0,50000);
 	
     return 0; 
     
@@ -93,13 +96,15 @@ int main()
       write_digital(i,1);
     }
     
-    	//connect_to_server("130.195.6.196", 1024); //IP ADDRESS NEEDS TO BE CHANGED
+    	connect_to_server("130.195.6.196", 1024); //IP ADDRESS NEEDS TO BE CHANGED
         //sends a message to the connected server
-        //send_to_server("Please");
+        send_to_server("Please");
         //receives message from the connected server
-        //char message[24];
+        char message[24];
         
-        //receive_from_server(message); //this may be buggy!
+        receive_from_server(message); //this may be buggy!
+
+	send_to_server(message);
         //printf("%s", message);
     
     while (1) { //run forever
@@ -127,7 +132,7 @@ int main()
 		printf("%d ", white[i]);
 		sum = sum + white[i];
 
-		if (sum > 54) {
+		if (sum > 56) {
 		 mazeMode = true;
 		}
             }
@@ -150,65 +155,66 @@ int main()
                 }
  
             }
-            if ((ln_fin - ln_start) < 20) { //if the width of the whiteness is small enougn
+            if (((ln_fin - ln_start) < 30) ||  mazeMode == true) { //if the width of the whiteness is small enougn
 		current_error = (ln_start + ln_fin)/2; //center of the line 
 		}
 
-	    else {current_error  =  0;}           //center of the line is now outside the for loop so that it is only set ONCE 
-            
+	    // else {current_error  =  0;}           //center of the line is now outside the for loop so that it is only set ONCE
+
             printf("current_error & previous error: %f %f", current_error, previous_error);
+		if (mazeMode == true) {printf(" mazeMode ON");}
             printf (" sum : %d \n", sum);
             proportional_signal = current_error*kp;
 	    derivative_signal = (current_error - previous_error)/0.01*kd;
             //printf("proportional_signal: %f   ", proportional_signal);
             Sleep(0,10000); // 1/100th of a second
-            if (sum != 0) {
-               previous_error = current_error;
-	    }	
-	
+
             //printf("derivative_signal: %f   ", derivative_signal);
             //printf("\n"); //print format will be "current error: x    proportional signal: x   derivative signal: x   "
-            
+
             total_signal = (int) (proportional_signal + derivative_signal); //0.5 is to counter the rounding error from doubles
-            
-		
+
+
 
             if (sum != 0) {//linewithin picture
-		set_motor(1, -50 - total_signal); //the left motor will increase when the line is to the right ( to turn right)
-                set_motor(2, -50 + total_signal); //the right motor will decrease if the line is to the right (to help turn right)		 
+		set_motor(1, -65 - total_signal); //the left motor will increase when the line is to the right ( to turn right)
+                set_motor(2, -65 + total_signal); //the right motor will decrease if the line is to the right (to help turn right)
             }
 
-            
-            else if (sum == 0 && mazeMode == true && previous_error < 0){	
-         
+
+            else if (sum == 0 && mazeMode == true && previous_error < 2){
+
 		//reverse the PI so that it doesnt keep going
                 //will be refined later
-	
+
 		turnLeft(); //ninty degrees
 
-            }
-            
-            else if (sum == 0 && mazeMode == true && previous_error > 0){	
-         
+		}
+
+            else if (sum == 0 && mazeMode == true && previous_error > 2){
+
 		//reverse the PI so that it doesnt keep going
                 //will be refined later
-	
-		turnRight(); //ninty degrees
+
+		turnRight(); //ninety degrees
             }
 
 
 	    //else if (sum == 0 && mazeMode == true && previous_error > 0) {
-		//turnRight(); //ninty degrees
+		//turnRight(); //ninety degrees
 	    //}
 
-	    else if (sum == 0 && mazeMode == false){
-            set_motor(1,60);
-	    set_motor(2,60);
- 
-	}
+	    else if(sum == 0 && mazeMode == true){
+            	set_motor(1,60);
+	    	set_motor(2,60);
+
+	    }
+
+            previous_error = current_error;
+
         }
-}        
-    
+}
+
     //terminate hardware;
     //close_screen_stream();
     //set_motor(1,0);
