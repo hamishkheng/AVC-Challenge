@@ -62,11 +62,17 @@ Here is our AVC checklists
 
 ###Week 5 checklist (Quadrant 3) (Progress Report Due)
 
-- [] (All): Hand in progress report/re-write final report based on feedback 
+- [x] (All): Hand in progress report/re-write final report based on feedback 
 - [] Sam: continue providing help to both hardware and software, ensure github is maintained
 - [] Jules: continue developing movement code for quadrant 3 and adapt for quadrant 4
 - [] Quan: continue developing movement code for quadrant 3 and adapt for quadrant 4
-- [] Hamish, Nikhil: continue/finish printing parts for chassis, make any changes necessary changes for better performance
+- [x] Hamish, Nikhil: continue/finish printing parts for chassis, make any changes necessary changes for better performance
+
+** Printing took more than 10hours for all the parts. 
+
+** Made minor miscalculations which causes a major loss in time as we only had a few days left and the limited printers once again. 
+
+** Becaue of this a new part needed to be made. It was a base for the the Raspberry Pi to it on. 
 
 ###Week 6 checklist (Quadrant 4)
 
