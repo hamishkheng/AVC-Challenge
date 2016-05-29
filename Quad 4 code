@@ -1,10 +1,10 @@
-Pconstant = 0.6;
+        
+        Pconstant = 0.6;
         int error;
         Perror_mid = error;
         speed = 40;
         Dconstant = 0.35;
- 
-        // Loop here:
+        
         sensor_left = read_analog(0);
         sensor_mid = read_analog(1);
         sensor_right = read_analog(2);
