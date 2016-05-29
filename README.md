@@ -54,7 +54,11 @@ Here is our AVC checklists
 - [] Sam: provide help to both hardware and software where needed, ensure members are on track for progress report
 - [] Jules: further develope movement code for quadrant 2 & 3
 - [] Quan: refine movement code to ensure quadrant 2 completion and develope for quadrant 3
-- [] Hamish, Nikhil: finalise designs and continue printing chassis parts, designs IR sensor mounts
+- [x] Hamish, Nikhil: finalise designs and continue printing chassis parts, designs IR sensor mounts
+
+** The concepts were all finalised. The actual 3D models were different from the ones draw as a hard copy. We basically simplified it    down due to time constraints and resources. 
+
+** Printing was delayed as there were a limited amount of printers and one printer was dysfunctional. This further decreased the         amount of time we could work on our project pushing us back further.
 
 ###Week 5 checklist (Quadrant 3) (Progress Report Due)
 
