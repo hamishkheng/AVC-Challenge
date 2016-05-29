@@ -42,7 +42,11 @@ Here is our AVC checklists
 - [x] Sam: overlook team progress, plan for following week, keep github updated
 - [x] Jules: Develop robot movement code and networking code
 - [] Quan:  Tidy up and refine robot movement code, and also networking code if have time
-- [] Hamish, Nikhil: Start building the chassis, characterise motors, prototype designs & hardware
+- [x] Hamish, Nikhil: Start building the chassis, characterise motors, prototype designs & hardware
+
+** We started building the actual robot with the final concept later than we expected.
+
+** We essentially stuck with the pre-made robot for testing and later constructed the actual product when most of the testing was        done. 
 
 ###Week 4 checklist (Quadrant 2)
 
