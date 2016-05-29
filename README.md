@@ -80,4 +80,6 @@ Here is our AVC checklists
 - [] Sam: ensure both hardware and software are meeting requirments, continue providing help and keep github updated
 - [] Jules: finish code for quadrant 4 and 3 so robot and traverse maze
 - [] Quan: fix any bugs in code as well as supply help for movement code quadrant 4
-- [] Hamish, Nikhil: finish printing hardware and assemble 
+- [x] Hamish, Nikhil: finish printing hardware and assemble 
+
+** Made a lot of last minute changes. So of the parts were too flimsy but we fixed the issues with various methods.
