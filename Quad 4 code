@@ -1,0 +1,19 @@
+Pconstant = 0.6;
+        int error;
+        Perror_mid = error;
+        speed = 40;
+        Dconstant = 0.35;
+ 
+        // Loop here:
+        sensor_left = read_analog(0);
+        sensor_mid = read_analog(1);
+        sensor_right = read_analog(2);
+        error = sensor_right - sensor_left;
+ 
+        proportional = error * Pconstant;
+        proportional = ((proportional / 770) * 100);
+        derivative = ((error - Perror_mid) / 0.1) * Dconstant;
+ 
+        set_motor(2, speed - proportional);
+        set_motor(1, speed + proportional); 
+        
