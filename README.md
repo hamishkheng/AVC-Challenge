@@ -87,7 +87,7 @@ due to various bugs means that quadrant 4 was decided to be optional and lower p
 
 - [] (All): continue re-writing final report based on progress feedback
 - [] Sam: ensure both hardware and software are meeting requirments, continue providing help and keep github updated
-- [] Jules: finish code for quadrant 4 and 3 so robot and traverse maze
+- [x] Jules: finish code for quadrant 4 and 3 so robot and traverse maze
 - [x] Quan: fix any bugs in code as well as supply help for movement code quadrant 4
 - [x] Hamish, Nikhil: finish printing hardware and assemble 
 
