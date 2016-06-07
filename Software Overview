@@ -1,0 +1,35 @@
+Software: Overview 
+
+Software team: Jules and Quan
+
+Goal(s): 
+ -Design the code for the network connection on the gate
+ -Design the Code for the Quadrant 2 (being able to follow a line and stay on line)
+ -Design the Code for the Quadrant 3 (being able to get out of deadends and find the right track)
+ 
+Plan: 
+  - Make the PID for the robot to follow
+  - CCode must be readable and easilly understood 
+  - Consider functionability and correctness of the code
+
+What we did: 
+
+Concpets(designs and ideas): 
+
+Specifications:
+
+What we expected/wanted: 
+
+Issues:
+
+Decisions: 
+
+Solutions: 
+
+The outcome:
+
+Future:
+
+Application: 
+
+Conclusion: 
