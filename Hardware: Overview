@@ -16,10 +16,18 @@ Plan:
   - 3D print a majority of the parts
 
 What we did: 
-  - 
+  - Drawing up ideas and concepts on paper (hardcopy) 
+  - Research: learnt to use freeCAD, gathered measurements and other relevant data for coming up with concepts such as reviewing past
+    years designs and putting all the constraints and specifications in to consideration
+  - Create 3D prints on freeCAD
+  - Print them out on the 3D printers 
+  - Construct once all the components are complete 
 
 Concpets(designs and ideas): 
-  - 
+  - Chassis 
+  - base (last minute add-on) 
+  - IR hinges 
+  - Frame 
 
 Tools/Equipemnt/components:
   - nuts and bolts
@@ -35,6 +43,7 @@ Tools/Equipemnt/components:
   - Wheels(large or small - large)
   - Ball bearing
   - Paint: red  
+  - FreeCAD (3D modelling software) 
 
 Specifications:
   - 
@@ -43,7 +52,7 @@ What we expected/wanted:
   - 
 
 Issues:
-  - 
+
 
 Decisions: 
   - 
