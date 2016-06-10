@@ -1,6 +1,8 @@
 Hardware: Overview 
 
-Hardware team: Nikhil and Hamish
+Hardware team: Nikhil and Hamish 
+
+(Not necesarrily in chronological order) 
 
 Goal(s): 
   - Design a robot that was enviromentally friendly and recyclable 
@@ -40,14 +42,26 @@ Tools/Equipemnt/components:
   - Wires 
   - Camera
   - IR sensor (2 or 3 - 2)
-  - Wheels(large or small - large)
+  - Wheels(medium or small - medium)
   - Ball bearing
   - Paint: red  
   - FreeCAD (3D modelling software) 
 
-Specifications:
-  - 
-
+Specifications: (final)
+  - 2x IR sensors (angled)  
+  - Chassis:
+    Width - 70mm
+    Height (battery holder inclusive) - 35mm
+    Length - 120mm
+  - Base: 
+    Width - 70mm
+    Height(legs/Pillars) - 40mm  
+    Length - 100mm
+  - Wheels:
+    Diameter - 50mm
+  - 1x PiCamera 
+  - RaspberryPi 
+    
 What we expected/wanted: 
   - 
 
@@ -63,7 +77,7 @@ Decisions:
 Solutions: 
   - 
 
-The outcome:
+The outcome/what actually happened:
   - 
   
 Future:
