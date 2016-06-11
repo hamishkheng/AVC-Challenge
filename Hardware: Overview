@@ -78,7 +78,16 @@ Issues:
   - 3D parts (too flimsy/weak)  
 
 Decisions: 
-  - 
+  - Changed to 2 IR sensors because the team realised that it would easier to program and manage othe robot
+  - Changed from small wheels to medium sized wheels because the team realised that it would be more beneficial for our robot
+  - Intended to have a frame bit did not make one bcuase of time constraints and availability of 3D printers
+  - Made minor errors in calculating the size of the chassis so had to make a last minute decision to 3D print a base for the 
+    RaspberryPi to be place on
+  - Printing was done on the second to last week because the 3D printers were in constant use and it took a long time before 
+    the team was able to access one
+  - Assemble was on the last week due to a hold back from the printing
+  - Testing and modiyfying was on the last week to and was done during the assemly of the robot so had to make on the spot 
+    decisions for the robot as the team was pressed for time
 
 Solutions: 
   - 
