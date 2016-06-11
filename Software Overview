@@ -6,30 +6,60 @@ Goal(s):
  -Design the code for the network connection on the gate
  -Design the Code for the Quadrant 2 (being able to follow a line and stay on line)
  -Design the Code for the Quadrant 3 (being able to get out of deadends and find the right track)
+ -Design the Code for the Quadrant 4 (going through the wall maze)
  
 Plan: 
-  - Make the PID for the robot to follow
-  - CCode must be readable and easilly understood 
-  - Consider functionability and correctness of the code
+  - write and test the code for the PI in stages (quad 2 code then to quad 3 then quad 4 etc)
+  - ensure that robot works before moving towards the next stage of the obstacle course
 
 What we did: 
+ - Wrote code, tested it and fixed bugs, moved on the next part of code.
+ - integrated PID error control system so that robot can follow the line in quad 2.
+ - ~~Hardcoded the left and right turning for quad 3 and 4 whenever the sensor and camera feed satisfied the right conditions~~ 
+ - Replaced hard code with PID system for both quadrant 3 and 4 that seemed to work even better.
+ - Have the robot know what segment of the obstacle course it was in (using coniditions that we made due to pattern observations of the course)
 
-Concpets(designs and ideas): 
+Concepts(designs and ideas): 
+ - N/A 
 
 Specifications:
-
+ - Code must be readable and easilly understood 
+ - must function correctly
+ - good, smooth handling was very desirable
+ 
 What we expected/wanted: 
-
+ - Code to run as expected and that the robot were to follow the line at all times (or recover if it loses track)
+ - get through at least half of quad 3 (half quad 4 if have time)
+ 
 Issues:
+ - wheels didnt work down to the fundamental level (the library was corrupted and not due to our code)
+ - Doesnt turn properly, due to faulty code (programming logic)
+ - turning the wrong way (faulty code) (particularly when swapping RWD to FWD and camera orientation)
+ - didnt work at all initially when integrated quad 1 code
+ - during quad 3, robot would turn the wrong way at some turns (inconsistent)
+ 
+ 
+Solutions: 
+ - Arthur and a tutor managed to fix the library for us (too advanced for the group itself to tinker with )\
+ - Fine tuned the PID and fixed issues with the error signal (sample rate was out of sync with the Array that holds the sample)
+ (created an array that holds 64 samples but didnt spread out the sampling for once every 5 pixels... so it was only reading the left most 64 pixels)
+ - due to math logic faults from the PID equation at the end (initial speed + (proportional + derivative signal)) and (initial speed +  (proportional + derivative signal))
+ - fixed the math logic by converting postive and negative signs so that it matches the forward direction of the wheel (dependant on which way it was wired into the RPi)
+ - the left motor should 'add' (relative signs to the direction of the wheel) the PID signal speed as a positive error meant the line was towards the right and therefore left wheel must turn faster to go right
+ - vice versa with the right wheel 
+ - quad 1 code was added outside the while loop so that it doesnt stop after the gate was opened once (since the gate code was only able to run once)
+ - did not fix the inconsistency of the quad 3 turning error as due to time constraints (only happens if robot was on the inner bend of the turn)
 
 Decisions: 
+ - Leave out quad 4 code despite having written a code for it due to time constraints with debugging and regression testing
+ - left quad 3 code as it is as it really depended on luck (whether it would go towards the inner bend of a turn or not.. if on the outer bend it will work everytime)
 
-Solutions: 
-
+ 
 The outcome:
-
+ - got through the end of quad 3 50% of the time, dependant on how it turned in quadrant 3 
 Future:
-
+ - implement a better algorithim for quad 3 that gives better predictability and handles the camera feed better and apply quad 4 code if we have time
 Application: 
-
+ - 
 Conclusion: 
+- if we had more time and more availability of the IR sensors for quad 4, we might have been able to get further than how we got now
