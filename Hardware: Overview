@@ -62,8 +62,14 @@ Specifications: (final)
   - 1x PiCamera 
   - RaspberryPi 
     
-What we expected/wanted: 
-  - 
+What we expected/wanted: (expand in decisions)  
+  - We wanted 3 IR sensors 
+  - Used the small wheels for speed
+  - To have a frame 
+  - Chassis to be the correct size (partial) 
+  - Printing to be done around week 5
+  - Complete and assemble by week 6
+  - Test and modify in week 7
 
 Issues:
   - Overheating 
