@@ -76,6 +76,10 @@ Issues:
   - Motors (wires) 
   - 3D parts (wrong size - minor miscalculations) 
   - 3D parts (too flimsy/weak)  
+  - Getting hacked 
+  - Data damage 
+  - Time management - general issues
+  - Team work - general issues 
 
 Decisions: 
   - Changed to 2 IR sensors because the team realised that it would easier to program and manage othe robot
@@ -90,17 +94,30 @@ Decisions:
     decisions for the robot as the team was pressed for time
 
 Solutions: 
-  - 
+  - Since I miscalculated the chassis I created a base to sit on top of the chassis so that the RaspberryPi could be placed on top of 
+    the base
+  - We didn't have a frame but that did not matter too much as the robot did not sustain much damage 
+  - There was an issue with our RaspberryPi so we replaced the sd card and tansferred all the data to the new card 
+  - Some 3D parts were too flimsy so used some more nuts and bolts to solve the problem 
 
 The outcome/what actually happened:
-  - 
+  - No frame 
+  - A base was added - last minute decision 
+  - 2 angled IR sensors attached but no used (time management issue) 
   
 Future:
-  - 
+  - Work on our time management so that we get all the parts done, assembled and tested on time
   
 Application: 
-  - 
+  - Applying to a real car 
+  - robotics 
+  - knowledge gained for career 
+  - good practice for practical work 
   
 Conclusion: 
-  - 
+  - Overall we did reasonaly well as a team
+  - Many issues but were (more or less) resolved well
+  - Quite a few changes applied 
+  - Overall robot worked quite well and got what we expected
+  - Would work on time management next time
   
